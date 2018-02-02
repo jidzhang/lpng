@@ -194,6 +194,7 @@ static png_t * LoadPngEx(read_cb read, void * read_arg)
 		png_len += out_len;
 	}
 	free(dat);
+	dat = 0;
 
 	/* unfilter */
 	len = w * bpp + 1;
@@ -238,8 +239,8 @@ static png_t * LoadPngEx(read_cb read, void * read_arg)
 	
 	return png;
 err:
-	free(png);
-	free(dat);
+	free(png); png = 0;
+	free(dat); dat = 0;
 	return NULL;
 }
 
@@ -402,7 +403,7 @@ HBITMAP LoadPng(const wchar_t * res_name,
 
 	bmp = PngToDib(png, premultiply);
 	
-	free(png);
+	free(png); png = 0;
 	if (! bmp)
 		return NULL;
 
